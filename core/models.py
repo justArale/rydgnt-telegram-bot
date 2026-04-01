@@ -1,6 +1,13 @@
 from dataclasses import dataclass, field
 from typing import Optional
+@dataclass
+class Coordinates:
+    """Geographic Point. Openrouteservice requires longitude first, then latitude"""
+    longitude: float
+    latitude: float
 
+    def __str__(self) -> str:
+        return f"({self.longitude:.4f}, {self.latitude:.4f})"
 @dataclass
 class WeatherData:
     """Current weather at a specific location."""
