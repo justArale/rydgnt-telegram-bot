@@ -22,5 +22,4 @@ class Config:
     )."""""
     TELEGRAM_BOT_TOKEN = _require("TELEGRAM_BOT_TOKEN")
     OPENROUTE_API_KEY = _require("OPENROUTE_API_KEY")
-    WEATHER_API_KEY = _require("WEATHER_API_KEY")
     HF_ACCESS_TOKEN = _require("HF_ACCESS_TOKEN")
