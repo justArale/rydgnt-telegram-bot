@@ -41,7 +41,11 @@ WMO_CODES: dict[int, str] = {
 }
 
 # Conditions I don't want to ride -> should display an advice against riding
-unsuitable_conditions = {56, 57, 65, 66, 67, 71, 73, 75, 77, 82, 86, 95, 96, 99} 
+UNSUITABLE_CONDITIONS = {56, 57, 65, 66, 67, 71, 73, 75, 77, 82, 86, 95, 96, 99} 
+
+# Wind thresholds (kph)
+_WIND_DANGEROUS = 40   # genuinely unsafe — debris, loss of control
+_WIND_STRONG    = 30   # strongly advise caution
 
 def _degrees_to_cardinal(degrees: float) -> str:
     """Convert wind direction in degrees to cardinal direction (N, NE, E, SE, S, SW, W, NW)"""
@@ -53,13 +57,13 @@ def _assess_suitability(conditions_code: int, wind_speed: float) -> tuple[bool, 
     """Determine if the weather conditions are suitable for cycling based on WMO code and wind speed.
     Returns a tuple of (is_suitable, reason_string).
     """
-    if conditions_code in unsuitable_conditions:
+    if conditions_code in UNSUITABLE_CONDITIONS:
         reason = f"'{WMO_CODES.get(conditions_code, 'Severe weather')}' forecast - not recommended for cycling."
         return False, reason
-    if wind_speed > 40:
+    if wind_speed > _WIND_DANGEROUS:
         reason = f"Very strong winds with {wind_speed} kph - might be not suitable for safe cycling."
         return False, reason
-    if wind_speed > 30:
+    if wind_speed > _WIND_STRONG:
         reason = f"Strong winds with {wind_speed} kph - consider wind direction carefully."
         return False, reason
     
