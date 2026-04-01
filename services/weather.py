@@ -49,7 +49,7 @@ def _degrees_to_cardinal(degrees: float) -> str:
     idx = round(degrees / 22.5) % 16
     return directions[idx]
 
-def _access_suitability(conditions_code: int, wind_speed: float) -> tuple[bool, str]:
+def _assess_suitability(conditions_code: int, wind_speed: float) -> tuple[bool, str]:
     """Determine if the weather conditions are suitable for cycling based on WMO code and wind speed.
     Returns a tuple of (is_suitable, reason_string).
     """
@@ -101,7 +101,7 @@ async def get_weather_data(coords: Coordinates) -> WeatherData:
 
     wind_label = _degrees_to_cardinal(wind_dir_deg)
     condition_str = WMO_CODES.get(weather_code, f"Code {weather_code}")
-    is_suitable, reason = _access_suitability(weather_code, wind_speed)
+    is_suitable, reason = _assess_suitability(weather_code, wind_speed)
 
     logger.info("Weather at %s: %s, %s°C (feels like %s°C), wind %s kph from %s - Suitable for cycling: %s. Reason: %s", coords, condition_str, temp, feels_like, wind_speed, wind_label, is_suitable, reason)
 
